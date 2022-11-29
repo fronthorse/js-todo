@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- CSS only -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
+    <style>
+      body {
+        background-color: rgb(222, 225, 232);
+      }
+
+      .holder {
+        width: max-content !important;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+          rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+          rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        background-color: rgb(226, 238, 222);
+      }
+      .todo-category {
+        font-weight: 600 !important;
+        margin-bottom: 1.5rem !important;
+      }
+      .todo-date,
+      .todo-time {
+        display: flex;
+        flex-direction: column;
+        font-weight: 400 !important;
+        font-size: 16px !important;
+        margin-top: 0.5rem !important;
+        gap: 1rem;
+      }
+
+      .todo-date i {
+        display: inline-block;
+        margin-right: 0.5rem;
+      }
+      .todo-description {
+        font-size: 16px;
+        font-weight: 500 !important;
+        text-transform: capitalize;
+      }
+      .todo-actions {
+        display: flex;
+        align-items: "center";
+        gap: 2rem;
+        justify-content: "space-between";
+      }
+      .todo-created {
+        font-size: 12px;
+        font-weight: 400;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="p-5 gap-5 d-block d-md-flex main">
+      <div>
+        <h1 class="fw-bolder">TODO MAKER</h1>
+        <button
+          class="btn btn-primary fw-bolder"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasWithBothOptions"
+          aria-controls="offcanvasWithBothOptions"
+        >
+          Add New Task <i class="bi bi-plus-square-fill ps-3"></i>
+        </button>
+
+        <div
+          class="offcanvas offcanvas-start"
+          style="height: max-content"
+          data-bs-scroll="true"
+          tabindex="-1"
+          id="offcanvasWithBothOptions"
+          aria-labelledby="offcanvasWithBothOptionsLabel"
+        >
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">
+              Enter ToDo details
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="offcanvas-body">
+            <form>
+              <div class="mb-3">
+                <label for="todotype" class="form-label fw-bold"
+                  >Select Todo Cartegory</label
+                >
+                <br />
+                <select
+                  name="todotype"
+                  id="todotype"
+                  form="todos"
+                  class="fw-bold"
+                >
+                  <option class="fw-bold" value="Study">Study</option>
+                  <option class="fw-bold" value="Workout">Workout</option>
+                  <option class="fw-bold" value="Food">Food</option>
+                  <option class="fw-bold" value="Game">Game</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="tododate" class="form-label fw-bold">Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  style="width: 350px"
+                  id="tododate"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="todotime" class="form-label fw-bold">Time</label>
+                <input
+                  type="time"
+                  class="form-control"
+                  style="width: 350px"
+                  id="todotime"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="todoinfo" class="form-label fw-bold"
+                  >Description</label
+                >
+                <textarea
+                  id="textarea"
+                  name="area"
+                  rows="4"
+                  cols="50"
+                  style="width: 350px"
+                >
+                </textarea>
+              </div>
+            </form>
+            <button
+              type="submit"
+              onclick="signup()"
+              class="btn btn-primary"
+              data-bs-dismiss="offcanvas"
+            >
+              Submit
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-bs-dismiss="offcanvas"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="">
+        <div class="row" id="items"></div>
+      </div>
+
+      <div
+        class="offcanvas offcanvas-end"
+        style="height: max-content"
+        tabindex="-1"
+        id="offcanvasRight"
+        aria-labelledby="offcanvasRightLabel"
+      >
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasRightLabel">Edit Todo</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <form>
+            <div class="mb-3">
+              <label for="tododate" class="form-label fw-bold">Date</label>
+              <input
+                type="date"
+                class="form-control"
+                style="width: 350px"
+                id="tododateedit"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="todotime" class="form-label fw-bold">Time</label>
+              <input
+                type="time"
+                class="form-control"
+                style="width: 350px"
+                id="todotimeedit"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="todoinfo" class="form-label fw-bold"
+                >Description</label
+              >
+              <textarea
+                id="textareaedit"
+                name="area"
+                rows="4"
+                cols="50"
+                style="width: 350px"
+              >
+              </textarea>
+            </div>
+          </form>
+          <button
+            type="button"
+            class="btn btn-secondary me-3"
+            data-bs-dismiss="offcanvas"
+          >
+            Close
+          </button>
+          <button
+            onClick="saveEditedTodo()"
+            type="button"
+            data-bs-dismiss="offcanvas"
+            class="btn btn-primary me-3"
+          >
+            Save changes
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      var todoTime;
+      var currentTime;
+      var currentDate;
+      var todoDate;
+      var date = new Date();
+
+      var editableTodos;
+      console.log("data");
+
+      // change one
+      var allTodos = getDataFromLocal() ?? [];
+      // change two
+      displayTodo();
+      console.log("all todo", allTodos);
+
+      function setDataToLocal() {
+        console.log("from set to local", allTodos);
+        localStorage.setItem("todos", JSON.stringify(allTodos));
+      }
+
+      function getDataFromLocal() {
+        return JSON.parse(localStorage.getItem("todos"));
+      }
+
+      function signup() {
+        var select = document.getElementById("todotype");
+        for (
+          var selectedIndex = 0;
+          selectedIndex < [select].length;
+          selectedIndex++
+        ) {
+          var selectedValue = select.options[select.selectedIndex].value;
+          console.log(selectedValue);
+        }
+        if (
+          selectedValue == "" ||
+          tododate.value == "" ||
+          todotime.value == ""
+        ) {
+          alert("Please enter toDo details");
+        } else {
+          var theTodos = {
+            cartegory: selectedValue,
+            thedate: tododate.value,
+            thetime: todotime.value,
+            description: textarea.value,
+            status: false,
+          };
+          allTodos.push(theTodos);
+          // change 3
+          setDataToLocal();
+          selectedValue = "";
+          tododate.value = "";
+          todotime.value = "";
+          textarea.value = "";
+          displayTodo();
+        }
+      }
+      function displayTodo() {
+        console.log("todo from display", allTodos);
+
+        var date = new Date();
+
+        items.innerHTML = "";
+
+        for (let index = 0; index < allTodos.length; index++) {
+          var backgroundColor = "";
+          var checked = "";
+
+          if (allTodos[index].status === true) {
+            backgroundColor = "background-color:transparent";
+            checked = "checked";
+          } else {
+            backgroundColor =
+              "border: 1px solid lightblue;width:max-content !important;box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;";
+          }
+
+          items.innerHTML += `
+          <div style=${backgroundColor}
+          class=" py-4 holder px-4  mb-5 col-6 mt-3 ms-2 mt-md-0   rounded" ;">
+            <h2 class="fw-bolder todo-category">${allTodos[index].cartegory}
+            <h2/>
+            <p class="fw-bold todo-date">
+              <span>
+                <i class="bi bi-calendar-month"></i>
+                ${allTodos[index].thedate}
+                </span>
+              <span>
+              <i class="bi bi-clock"></i>
+                ${allTodos[index].thetime}
+              </span>
+
+            <p/>
+
+            <div class="w-100 todo-description">
+              <p class="fs-4">
+                ${allTodos[index].description}
+              <p/>
+            <div/>
+
+            <h6 class="pb-3 todo-created">${
+              "Created On :" +
+              date.getDate() +
+              "/" +
+              date.getMonth() +
+              "/" +
+              date.getFullYear()
+            }
+            <h6/>
+                       <div class="form-check pb-2">
+                        <input class="form-check-input" ${checked} type="checkbox" onclick="changeStatus(${index})"  id="flexCheckIndeterminate${index}">
+                        <label class="form-check-label fs-6 mt-1 "  for="flexCheckIndeterminate${index}">
+                          Mark as Completed
+                        </label>
+                      </div>
+                      <div class="todo-actions ">
+                        <button
+                          onclick="editTodo(${index})"
+                          class="px-4 py-2 btn btn-outline-primary mt-2 rounded" type="button"
+                          data-bs-toggle="offcanvas"
+                          data-bs-target="#offcanvasRight"
+                          aria-controls="offcanvasRight"
+                        >
+                          Edit
+                          <i class="bi bi-pencil-square"></i>
+                        </button>
+                        <button
+                          onclick="deleteTodo(${index})"
+                          class="text-light btn btn-danger px-4 py-2 rounded mt-2 "
+                          >
+                            Delete
+                            <i class="bi bi-trash3"></i>
+                          </button>
+                          </div>
+                          </div>`;
+        }
+      }
+      function editTodo(todoIndex) {
+        tododateedit.value = allTodos[todoIndex].thedate;
+        todotimeedit.value = allTodos[todoIndex].thetime;
+        textareaedit.value = allTodos[todoIndex].description;
+        editableTodos = todoIndex;
+      }
+      function saveEditedTodo() {
+        allTodos[editableTodos] = {
+          thedate: tododateedit.value,
+          thetime: todotimeedit.value,
+          description: textareaedit.value,
+          cartegory: allTodos[editableTodos].cartegory,
+        };
+        todoTime = allTodos[editableTodos].thetime;
+        currentTime = date.getTime;
+        todoDate = allTodos[editableTodos].thedate;
+        currentDate = date.getDate;
+        console.log(currentDate);
+
+        // change 4
+        setDataToLocal();
+        displayTodo();
+      }
+      function deleteTodo(todoIndex) {
+        var answer = confirm("Are you sure you want to delete");
+        if (answer == true) {
+          allTodos.splice(todoIndex, 1);
+          // change 5
+          setDataToLocal();
+          displayTodo();
+        }
+      }
+
+      function changeStatus(changeIndex) {
+        allTodos[changeIndex].status = !allTodos[changeIndex].status;
+
+        setDataToLocal();
+        displayTodo();
+      }
+
+      // if (todoTime == currentTime || todoDate == currentDate) {
+      //   alert("Time don knack");
+      //   setDataToLocal();
+      // }
+    </script>
+  </body>
+</html>
